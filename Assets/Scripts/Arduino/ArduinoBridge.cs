@@ -11,10 +11,15 @@ public class ArduinoBridge : Singleton<ArduinoBridge>
     private Vector2 joystick;
     public Vector2 Joystick => joystick;
     
+    [SerializeField] private string portName = "COM3";
+    [SerializeField] private int baudRate = 9600;
+    [Range(1, 100)]
+    [SerializeField] private int threadTimeout = 5;
+    
     protected override void Awake()
     {
         base.Awake();
-        serialPort = new SerialPort("COM3", 9600);
+        serialPort = new SerialPort(portName, baudRate);
     }
     
     private void Start()
@@ -30,11 +35,12 @@ public class ArduinoBridge : Singleton<ArduinoBridge>
 
         while (serialPort.IsOpen)
         {
-            if (serialPort.BytesToRead > 0)
+            int bytesToRead = serialPort.BytesToRead;
+            if (bytesToRead > 0)
             {
-                byte[] buffer = new byte[serialPort.BytesToRead];
-                int bytesToRead = await serialPort.BaseStream.ReadAsync(buffer, 0, buffer.Length);
-                string data = System.Text.Encoding.ASCII.GetString(buffer, 0, bytesToRead);
+                byte[] buffer = new byte[bytesToRead];
+                int bytesRead = await serialPort.BaseStream.ReadAsync(buffer, 0, buffer.Length);
+                string data = System.Text.Encoding.ASCII.GetString(buffer, 0, bytesRead);
                 
                 complete += data;
 
@@ -49,7 +55,7 @@ public class ArduinoBridge : Singleton<ArduinoBridge>
                 }
             }
 
-            Thread.Sleep(5);
+            Thread.Sleep(threadTimeout);
         }
     }
 
