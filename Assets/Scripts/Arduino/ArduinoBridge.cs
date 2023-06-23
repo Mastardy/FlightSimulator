@@ -13,8 +13,6 @@ public class ArduinoBridge : Singleton<ArduinoBridge>
     
     [SerializeField] private string portName = "COM3";
     [SerializeField] private int baudRate = 9600;
-    [Range(1, 100)]
-    [SerializeField] private int threadTimeout = 5;
     
     protected override void Awake()
     {
@@ -54,8 +52,6 @@ public class ArduinoBridge : Singleton<ArduinoBridge>
                     complete = string.Empty;
                 }
             }
-
-            Thread.Sleep(threadTimeout);
         }
     }
 

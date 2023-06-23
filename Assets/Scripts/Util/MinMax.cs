@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class MinMax
 {
     public float Min { get; private set; }
