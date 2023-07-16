@@ -8,9 +8,12 @@ public class ArduinoBridge : Singleton<ArduinoBridge>
     private SerialPort serialPort;
     private Thread readThread;
 
-    private Vector2 joystick;
-    public Vector2 Joystick => joystick;
+    private Vector3 joystick;
+    public Vector3 Joystick => joystick;
     
+    private bool button;
+    public bool Button => button;
+
     [SerializeField] private string portName = "COM3";
     [SerializeField] private int baudRate = 9600;
     
@@ -48,7 +51,10 @@ public class ArduinoBridge : Singleton<ArduinoBridge>
 
                     joystick.x = SafeParse(complete.Split(',')[0]);
                     joystick.y = SafeParse(complete.Split(',')[1]);
-
+                    joystick.z = SafeParse(complete.Split(',')[2]);
+                    
+                    button = SafeParse(complete.Split(',')[3]) > 0.0f;
+                    
                     complete = string.Empty;
                 }
             }
