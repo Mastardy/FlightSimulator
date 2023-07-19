@@ -8,9 +8,15 @@ public class TerrainFace
     private Vector3 localUp;
     private Vector3 axisA;
     private Vector3 axisB;
+
+    private int faceResolution;
+    private Vector2Int faceIndex;
     
-    public TerrainFace(ShapeGenerator shapeGenerator, Mesh mesh, int resolution, Vector3 localUp)
+    public TerrainFace(ShapeGenerator shapeGenerator, Mesh mesh, int resolution, int faceResolution, int faceIndex, Vector3 localUp)
     {
+        this.faceResolution = faceResolution;
+        this.faceIndex = new Vector2Int(faceIndex % faceResolution, faceIndex / faceResolution);
+
         this.shapeGenerator = shapeGenerator;
         this.mesh = mesh;
         this.resolution = resolution;
@@ -31,7 +37,7 @@ public class TerrainFace
         {
             for(int x = 0; x < resolution; x++, i++)
             {
-                Vector2 percent = new Vector2(x, y) / (resolution - 1);
+                Vector2 percent = (new Vector2(x, y) / (resolution - 1) / faceResolution) + (Vector2)faceIndex / faceResolution;
                 Vector3 pointOnUnitCube = localUp + (percent.x - .5f) * 2 * axisA + (percent.y - .5f) * 2 * axisB;
                 Vector3 pointOnUnitSphere = pointOnUnitCube.normalized;
                 float unscaledElevation = shapeGenerator.CalculateUnscaledElevation(pointOnUnitSphere);
@@ -65,7 +71,7 @@ public class TerrainFace
         {
             for(int x = 0; x < resolution; x++, i++)
             {
-                Vector2 percent = new Vector2(x, y) / (resolution - 1);
+                Vector2 percent = new Vector2(x, y) / (resolution - 1) / faceResolution + (Vector2)faceIndex / faceResolution;
                 Vector3 pointOnUnitCube = localUp + (percent.x - .5f) * 2 * axisA + (percent.y - .5f) * 2 * axisB;
                 Vector3 pointOnUnitSphere = pointOnUnitCube.normalized;
                 

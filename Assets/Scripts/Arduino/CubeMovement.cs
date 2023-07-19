@@ -3,6 +3,8 @@ using UnityEngine;
 public class CubeMovement : MonoBehaviour
 {
     private bool lastButtonState;
+
+    private bool buttonToggle;
     
     private void Update()
     {
@@ -16,8 +18,11 @@ public class CubeMovement : MonoBehaviour
         
         if (currentButtonState != lastButtonState && currentButtonState)
         {
-            GetComponent<MeshRenderer>().material.color = Random.ColorHSV();
+            buttonToggle = !buttonToggle;
         }
+
+        if (buttonToggle) GetComponent<MeshRenderer>().material.color = Color.black;
+        else GetComponent<MeshRenderer>().material.color = Color.white;
         
         lastButtonState = currentButtonState;
     }
