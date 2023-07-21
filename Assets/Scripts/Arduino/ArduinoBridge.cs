@@ -8,8 +8,11 @@ public class ArduinoBridge : Singleton<ArduinoBridge>
     private SerialPort serialPort;
     private Thread readThread;
 
-    private Vector3 joystick;
-    public Vector3 Joystick => joystick;
+    private Vector2 joystick;
+    public Vector2 Joystick => joystick;
+
+    private float acceleration;
+    public float Acceleration => acceleration;
     
     private bool button;
     public bool Button => button;
@@ -51,8 +54,8 @@ public class ArduinoBridge : Singleton<ArduinoBridge>
 
                     joystick.x = SafeParse(complete.Split(',')[0]);
                     joystick.y = SafeParse(complete.Split(',')[1]);
-                    joystick.z = SafeParse(complete.Split(',')[2]);
-                    
+                    acceleration = SafeParse(complete.Split(',')[2]);
+                    acceleration = (acceleration + 1) / 2.0f;
                     button = SafeParse(complete.Split(',')[3]) > 0.0f;
                     
                     complete = string.Empty;

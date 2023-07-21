@@ -12,7 +12,7 @@ public class CubeMovement : MonoBehaviour
         
         transform.position += ArduinoBridge.Instance.Joystick.x * Time.deltaTime * Vector3.right;
         transform.position += ArduinoBridge.Instance.Joystick.y * Time.deltaTime * Vector3.up;
-        transform.position += ArduinoBridge.Instance.Joystick.z * Time.deltaTime * Vector3.forward;
+        transform.position += ArduinoBridge.Instance.Acceleration * Time.deltaTime * Vector3.forward;
         
         var currentButtonState = ArduinoBridge.Instance.Button;
         

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Planet : MonoBehaviour
@@ -103,7 +104,12 @@ public class Planet : MonoBehaviour
         if (!autoUpdate) return;
         GeneratePlanet();   
     }
-    
+
+    private void Awake()
+    {
+        GeneratePlanet();
+    }
+
     private void GenerateMesh()
     {
         for (var i = 0; i < 6; i++)
